@@ -12,12 +12,12 @@
 
 #import <FBSDKCoreKit/FBSDKSettingsProtocol.h>
 #import <FBSDKCoreKit_Basics/FBSDKCoreKit_Basics.h>
+#import <FBSDKCoreKit/_FBSDKNotificationPosting.h>
 
 #import "FBSDKAccessToken.h"
 #import "FBSDKGraphRequestConnecting.h"
 #import "FBSDKLocation.h"
 #import "FBSDKMath.h"
-#import "FBSDKNotificationProtocols.h"
 #import "FBSDKProfileCodingKey.h"
 #import "FBSDKURLHosting.h"
 #import "FBSDKUnarchiverProvider.h"
@@ -44,7 +44,7 @@ static NSDateFormatter *_dateFormatter;
 @implementation FBSDKProfile
 
 static Class<FBSDKAccessTokenProviding> _accessTokenProvider = nil;
-static id<FBSDKNotificationPosting, FBSDKNotificationObserving> _notificationCenter = nil;
+static id<_FBSDKNotificationPosting, FBSDKNotificationDelivering> _notificationCenter = nil;
 static id<FBSDKDataPersisting> _dataStore;
 static id<FBSDKSettings> _settings;
 static id<FBSDKURLHosting> _urlHoster;
@@ -79,12 +79,12 @@ static id<FBSDKURLHosting> _urlHoster;
   _settings = settings;
 }
 
-+ (nullable id<FBSDKNotificationPosting, FBSDKNotificationObserving>)notificationCenter
++ (nullable id<_FBSDKNotificationPosting, FBSDKNotificationDelivering>)notificationCenter
 {
   return _notificationCenter;
 }
 
-+ (void)setNotificationCenter:(nullable id<FBSDKNotificationPosting, FBSDKNotificationObserving>)notificationCenter
++ (void)setNotificationCenter:(nullable id<_FBSDKNotificationPosting, FBSDKNotificationDelivering>)notificationCenter
 {
   _notificationCenter = notificationCenter;
 }
@@ -99,7 +99,7 @@ static id<FBSDKURLHosting> _urlHoster;
   _urlHoster = urlHoster;
 }
 
-- (instancetype)initWithUserID:(FBSDKUserIdentifier *)userID
+- (instancetype)initWithUserID:(FBSDKUserIdentifier)userID
                      firstName:(nullable NSString *)firstName
                     middleName:(nullable NSString *)middleName
                       lastName:(nullable NSString *)lastName
@@ -124,7 +124,7 @@ static id<FBSDKURLHosting> _urlHoster;
                        gender:nil];
 }
 
-- (instancetype)initWithUserID:(FBSDKUserIdentifier *)userID
+- (instancetype)initWithUserID:(FBSDKUserIdentifier)userID
                      firstName:(nullable NSString *)firstName
                     middleName:(nullable NSString *)middleName
                       lastName:(nullable NSString *)lastName
@@ -151,7 +151,7 @@ static id<FBSDKURLHosting> _urlHoster;
                        gender:nil];
 }
 
-- (instancetype)initWithUserID:(FBSDKUserIdentifier *)userID
+- (instancetype)initWithUserID:(FBSDKUserIdentifier)userID
                      firstName:(nullable NSString *)firstName
                     middleName:(nullable NSString *)middleName
                       lastName:(nullable NSString *)lastName
@@ -160,7 +160,7 @@ static id<FBSDKURLHosting> _urlHoster;
                    refreshDate:(nullable NSDate *)refreshDate
                       imageURL:(NSURL *)imageURL
                          email:(NSString *)email
-                     friendIDs:(NSArray<FBSDKUserIdentifier *> *)friendIDs
+                     friendIDs:(NSArray<FBSDKUserIdentifier> *)friendIDs
 {
   return [self initWithUserID:userID
                     firstName:firstName
@@ -179,7 +179,7 @@ static id<FBSDKURLHosting> _urlHoster;
                        gender:nil];
 }
 
-- (instancetype)initWithUserID:(FBSDKUserIdentifier *)userID
+- (instancetype)initWithUserID:(FBSDKUserIdentifier)userID
                      firstName:(nullable NSString *)firstName
                     middleName:(nullable NSString *)middleName
                       lastName:(nullable NSString *)lastName
@@ -188,7 +188,7 @@ static id<FBSDKURLHosting> _urlHoster;
                    refreshDate:(nullable NSDate *)refreshDate
                       imageURL:(NSURL *)imageURL
                          email:(NSString *)email
-                     friendIDs:(NSArray<FBSDKUserIdentifier *> *)friendIDs
+                     friendIDs:(NSArray<FBSDKUserIdentifier> *)friendIDs
                       birthday:(NSDate *)birthday
                       ageRange:(FBSDKUserAgeRange *)ageRange
 {
@@ -209,7 +209,7 @@ static id<FBSDKURLHosting> _urlHoster;
                        gender:nil];
 }
 
-- (instancetype)initWithUserID:(FBSDKUserIdentifier *)userID
+- (instancetype)initWithUserID:(FBSDKUserIdentifier)userID
                      firstName:(nullable NSString *)firstName
                     middleName:(nullable NSString *)middleName
                       lastName:(nullable NSString *)lastName
@@ -218,7 +218,7 @@ static id<FBSDKURLHosting> _urlHoster;
                    refreshDate:(nullable NSDate *)refreshDate
                       imageURL:(NSURL *)imageURL
                          email:(NSString *)email
-                     friendIDs:(NSArray<FBSDKUserIdentifier *> *)friendIDs
+                     friendIDs:(NSArray<FBSDKUserIdentifier> *)friendIDs
                       birthday:(NSDate *)birthday
                       ageRange:(FBSDKUserAgeRange *)ageRange
                      isLimited:(BOOL)isLimited
@@ -241,7 +241,7 @@ static id<FBSDKURLHosting> _urlHoster;
                     isLimited:isLimited];
 }
 
-- (instancetype)initWithUserID:(FBSDKUserIdentifier *)userID
+- (instancetype)initWithUserID:(FBSDKUserIdentifier)userID
                      firstName:(nullable NSString *)firstName
                     middleName:(nullable NSString *)middleName
                       lastName:(nullable NSString *)lastName
@@ -250,7 +250,7 @@ static id<FBSDKURLHosting> _urlHoster;
                    refreshDate:(nullable NSDate *)refreshDate
                       imageURL:(nullable NSURL *)imageURL
                          email:(nullable NSString *)email
-                     friendIDs:(nullable NSArray<FBSDKUserIdentifier *> *)friendIDs
+                     friendIDs:(nullable NSArray<FBSDKUserIdentifier> *)friendIDs
                       birthday:(nullable NSDate *)birthday
                       ageRange:(nullable FBSDKUserAgeRange *)ageRange
                       hometown:(nullable FBSDKLocation *)hometown
@@ -278,7 +278,7 @@ static id<FBSDKURLHosting> _urlHoster;
   return self;
 }
 
-- (instancetype)initWithUserID:(FBSDKUserIdentifier *)userID
+- (instancetype)initWithUserID:(FBSDKUserIdentifier)userID
                      firstName:(nullable NSString *)firstName
                     middleName:(nullable NSString *)middleName
                       lastName:(nullable NSString *)lastName
@@ -287,7 +287,7 @@ static id<FBSDKURLHosting> _urlHoster;
                    refreshDate:(nullable NSDate *)refreshDate
                       imageURL:(NSURL *)imageURL
                          email:(NSString *)email
-                     friendIDs:(NSArray<FBSDKUserIdentifier *> *)friendIDs
+                     friendIDs:(NSArray<FBSDKUserIdentifier> *)friendIDs
                       birthday:(NSDate *)birthday
                       ageRange:(FBSDKUserAgeRange *)ageRange
                       hometown:(FBSDKLocation *)hometown
@@ -341,9 +341,9 @@ static id<FBSDKURLHosting> _urlHoster;
     g_currentProfile = profile;
 
     if (shouldPostNotification) {
-      [self.notificationCenter postNotificationName:FBSDKProfileDidChangeNotification
-                                             object:self.class
-                                           userInfo:userInfo];
+      [self.notificationCenter fb_postNotificationName:FBSDKProfileDidChangeNotification
+                                                object:self.class
+                                              userInfo:userInfo];
     }
   }
 }
@@ -356,12 +356,12 @@ static id<FBSDKURLHosting> _urlHoster;
 + (void)enableUpdatesOnAccessTokenChange:(BOOL)enable
 {
   if (enable) {
-    [self.notificationCenter addObserver:self
-                                selector:@selector(observeChangeAccessTokenChange:)
-                                    name:FBSDKAccessTokenDidChangeNotification
-                                  object:nil];
+    [self.notificationCenter fb_addObserver:self
+                                   selector:@selector(observeChangeAccessTokenChange:)
+                                       name:FBSDKAccessTokenDidChangeNotification
+                                     object:nil];
   } else {
-    [self.notificationCenter removeObserver:self];
+    [self.notificationCenter fb_removeObserver:self];
   }
 }
 
@@ -449,7 +449,7 @@ static id<FBSDKURLHosting> _urlHoster;
 
 - (instancetype)initWithCoder:(NSCoder *)decoder
 {
-  FBSDKUserIdentifier *userID = [decoder decodeObjectOfClass:[FBSDKUserIdentifier class] forKey:FBSDKProfileCodingKeyUserID];
+  FBSDKUserIdentifier userID = [decoder decodeObjectOfClass:[NSString class] forKey:FBSDKProfileCodingKeyUserID];
   NSString *firstName = [decoder decodeObjectOfClass:NSString.class forKey:FBSDKProfileCodingKeyFirstName];
   NSString *middleName = [decoder decodeObjectOfClass:NSString.class forKey:FBSDKProfileCodingKeyMiddleName];
   NSString *lastName = [decoder decodeObjectOfClass:NSString.class forKey:FBSDKProfileCodingKeyLastName];
@@ -458,7 +458,7 @@ static id<FBSDKURLHosting> _urlHoster;
   NSDate *refreshDate = [decoder decodeObjectOfClass:NSDate.class forKey:FBSDKProfileCodingKeyRefreshDate];
   NSURL *imageURL = [decoder decodeObjectOfClass:NSURL.class forKey:FBSDKProfileCodingKeyImageURL];
   NSString *email = [decoder decodeObjectOfClass:NSString.class forKey:FBSDKProfileCodingKeyEmail];
-  NSArray<FBSDKUserIdentifier *> *friendIDs = [decoder decodeObjectOfClass:NSArray.class forKey:FBSDKProfileCodingKeyFriendIDs];
+  NSArray<FBSDKUserIdentifier> *friendIDs = [decoder decodeObjectOfClass:NSArray.class forKey:FBSDKProfileCodingKeyFriendIDs];
   BOOL isLimited = [decoder decodeBoolForKey:FBSDKProfileCodingKeyIsLimited];
   NSDate *birthday = [decoder decodeObjectOfClass:NSDate.class forKey:FBSDKProfileCodingKeyBirthday];
   FBSDKUserAgeRange *ageRange = [decoder decodeObjectOfClass:FBSDKUserAgeRange.class forKey:FBSDKProfileCodingKeyAgeRange];
@@ -505,7 +505,7 @@ static id<FBSDKURLHosting> _urlHoster;
 
 + (void)configureWithDataStore:(id<FBSDKDataPersisting>)dataStore
            accessTokenProvider:(Class<FBSDKAccessTokenProviding>)accessTokenProvider
-            notificationCenter:(id<FBSDKNotificationPosting, FBSDKNotificationObserving>)notificationCenter
+            notificationCenter:(id<_FBSDKNotificationPosting, FBSDKNotificationDelivering>)notificationCenter
                       settings:(id<FBSDKSettings>)settings
                      urlHoster:(id<FBSDKURLHosting>)urlHoster
 {
@@ -524,15 +524,15 @@ static id<FBSDKURLHosting> _urlHoster;
 {
   if (profile) {
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:profile];
-    [self.dataStore setObject:data forKey:FBSDKProfileUserDefaultsKey];
+    [self.dataStore fb_setObject:data forKey:FBSDKProfileUserDefaultsKey];
   } else {
-    [self.dataStore removeObjectForKey:FBSDKProfileUserDefaultsKey];
+    [self.dataStore fb_removeObjectForKey:FBSDKProfileUserDefaultsKey];
   }
 }
 
 + (nullable FBSDKProfile *)fetchCachedProfile
 {
-  NSData *data = [self.dataStore objectForKey:FBSDKProfileUserDefaultsKey];
+  NSData *data = [self.dataStore fb_objectForKey:FBSDKProfileUserDefaultsKey];
   if (data != nil) {
     id<FBSDKObjectDecoding> unarchiver = [FBSDKUnarchiverProvider createSecureUnarchiverFor:data];
 
@@ -545,7 +545,7 @@ static id<FBSDKURLHosting> _urlHoster;
   return nil;
 }
 
-+ (NSURL *)imageURLForProfileID:(FBSDKUserIdentifier *)profileId
++ (NSURL *)imageURLForProfileID:(FBSDKUserIdentifier)profileId
                     pictureMode:(FBSDKProfilePictureMode)mode
                            size:(CGSize)size
 {
@@ -655,7 +655,7 @@ static id<FBSDKURLHosting> _urlHoster;
     if (urlString) {
       linkUrl = [FBSDKTypeUtility coercedToURLValue:[NSURL URLWithString:urlString]];
     }
-    NSArray<FBSDKUserIdentifier *> *friendIDs = [self friendIDsFromGraphResult:[FBSDKTypeUtility dictionaryValue:result[@"friends"]]];
+    NSArray<FBSDKUserIdentifier> *friendIDs = [self friendIDsFromGraphResult:[FBSDKTypeUtility dictionaryValue:result[@"friends"]]];
     FBSDKUserAgeRange *ageRange = [FBSDKUserAgeRange ageRangeFromDictionary:[FBSDKTypeUtility dictionaryValue:result[@"age_range"]]];
 
     [FBSDKProfile.dateFormatter setDateFormat:@"MM/dd/yyyy"];
@@ -728,14 +728,14 @@ static id<FBSDKURLHosting> _urlHoster;
   [self loadProfileWithToken:token completion:NULL];
 }
 
-+ (nullable NSArray<FBSDKUserIdentifier *> *)friendIDsFromGraphResult:(NSDictionary<NSString *, id> *)result
++ (nullable NSArray<FBSDKUserIdentifier> *)friendIDsFromGraphResult:(NSDictionary<NSString *, id> *)result
 {
   NSArray<NSDictionary<NSString *, id> *> *rawFriends = [FBSDKTypeUtility arrayValue:result[@"data"]];
-  NSMutableArray<FBSDKUserIdentifier *> *friendIDs = [NSMutableArray new];
+  NSMutableArray<FBSDKUserIdentifier> *friendIDs = [NSMutableArray new];
 
   for (NSDictionary<NSString *, id> *rawFriend in rawFriends) {
     if ([FBSDKTypeUtility dictionaryValue:rawFriend]) {
-      FBSDKUserIdentifier *friendID = [FBSDKTypeUtility coercedToStringValue:rawFriend[@"id"]];
+      FBSDKUserIdentifier friendID = [FBSDKTypeUtility coercedToStringValue:rawFriend[@"id"]];
       [FBSDKTypeUtility array:friendIDs addObject:friendID];
     }
   }

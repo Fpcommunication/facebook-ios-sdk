@@ -8,13 +8,14 @@
 
 #import "FBSDKImpressionLoggerFactory.h"
 
+#import <FBSDKCoreKit_Basics/FBSDKNotificationDelivering.h>
+
 #import <FBSDKCoreKit/FBSDKAccessTokenProtocols.h>
 #import <FBSDKCoreKit/FBSDKGraphRequestFactory.h>
 
 #import "FBSDKEventLogging.h"
 #import "FBSDKImpressionLogging.h"
-#import "FBSDKNotificationProtocols.h"
-#import "FBSDKViewImpressionLogger.h"
+#import <FBSDKCoreKit/FBSDKCoreKit-Swift.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -22,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithGraphRequestFactory:(id<FBSDKGraphRequestFactory>)graphRequestFactory
                                 eventLogger:(id<FBSDKEventLogging>)eventLogger
-                         notificationCenter:(id<FBSDKNotificationObserving>)notificationCenter
+                         notificationCenter:(id<FBSDKNotificationDelivering>)notificationCenter
                           accessTokenWallet:(Class<FBSDKAccessTokenProviding>)accessTokenWallet
 {
   if ((self = [super init])) {
@@ -36,11 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id<FBSDKImpressionLogging>)makeImpressionLoggerWithEventName:(FBSDKAppEventName)eventName
 {
-  return [FBSDKViewImpressionLogger impressionLoggerWithEventName:eventName
-                                              graphRequestFactory:self.graphRequestFactory
-                                                      eventLogger:self.eventLogger
-                                             notificationObserver:self.notificationCenter
-                                                      tokenWallet:self.accessTokenWallet];
+  return [FBSDKViewImpressionLogger retrieveLoggerWith: eventName];
 }
 
 @end

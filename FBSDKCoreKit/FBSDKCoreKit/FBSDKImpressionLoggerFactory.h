@@ -6,13 +6,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+#import <FBSDKCoreKit_Basics/FBSDKNotificationDelivering.h>
+
 #import <FBSDKCoreKit/FBSDKAccessTokenProtocols.h>
 #import <FBSDKCoreKit/FBSDKGraphRequestFactory.h>
 
 #import "FBSDKEventLogging.h"
 #import "FBSDKImpressionLoggerFactoryProtocol.h"
 #import "FBSDKImpressionLogging.h"
-#import "FBSDKNotificationProtocols.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,7 +22,7 @@ NS_SWIFT_NAME(ImpressionLoggerFactory)
 
 @property (nonatomic, readonly) id<FBSDKGraphRequestFactory> graphRequestFactory;
 @property (nonatomic, readonly) id<FBSDKEventLogging> eventLogger;
-@property (nonatomic, readonly) id<FBSDKNotificationObserving> notificationCenter;
+@property (nonatomic, readonly) id<FBSDKNotificationDelivering> notificationCenter;
 @property (nonatomic, readonly) Class<FBSDKAccessTokenProviding> accessTokenWallet;
 
 - (instancetype)init NS_UNAVAILABLE;
@@ -30,7 +31,7 @@ NS_SWIFT_NAME(ImpressionLoggerFactory)
 // UNCRUSTIFY_FORMAT_OFF
 - (instancetype)initWithGraphRequestFactory:(nonnull id<FBSDKGraphRequestFactory>)graphRequestFactory
                                 eventLogger:(nonnull id<FBSDKEventLogging>)eventLogger
-                         notificationCenter:(nonnull id<FBSDKNotificationObserving>)notificationCenter
+                         notificationCenter:(nonnull id<FBSDKNotificationDelivering>)notificationCenter
                           accessTokenWallet:(nonnull Class<FBSDKAccessTokenProviding>)accessTokenWallet
   NS_DESIGNATED_INITIALIZER
   NS_SWIFT_NAME(init(graphRequestFactory:eventLogger:notificationCenter:accessTokenWallet:));

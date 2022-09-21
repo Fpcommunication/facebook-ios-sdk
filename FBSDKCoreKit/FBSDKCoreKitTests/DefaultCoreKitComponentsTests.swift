@@ -17,7 +17,7 @@ final class DefaultCoreKitComponentsTests: XCTestCase {
 
   func testAccessTokenExpirer() throws {
     let expirer = try XCTUnwrap(
-      components.accessTokenExpirer as? AccessTokenExpirer,
+      components.accessTokenExpirer as? _AccessTokenExpirer,
       "The default components should use an instance of AccessTokenExpirer as its access token expirer"
     )
     XCTAssertTrue(
@@ -210,14 +210,14 @@ final class DefaultCoreKitComponentsTests: XCTestCase {
 
   func testFeatureChecker() {
     XCTAssertTrue(
-      components.featureChecker === FeatureManager.shared,
+      components.featureChecker === _FeatureManager.shared,
       "The default components should use the shared FeatureManager as its feature checker"
     )
   }
 
   func testGateKeeperManager() {
     XCTAssertTrue(
-      components.gateKeeperManager === GateKeeperManager.self,
+      components.gateKeeperManager === _GateKeeperManager.self,
       "The default components should use the GateKeeperManager type as its gate keeper manager"
     )
   }
@@ -699,7 +699,7 @@ final class DefaultCoreKitComponentsTests: XCTestCase {
 
   func testWebViewProvider() {
     XCTAssertTrue(
-      components.webViewProvider is WebViewFactory,
+      components.webViewProvider is _WebViewFactory,
       "The default components should use an instance of WebViewFactory as its web view provider"
     )
   }

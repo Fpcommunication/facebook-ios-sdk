@@ -23,6 +23,7 @@ typedef void (^FBAEMReporterBlock)(NSError *_Nullable);
 @property (class, nonatomic) BOOL isEnabled;
 @property (class, nonatomic) BOOL isConversionFilteringEnabled;
 @property (class, nonatomic) BOOL isCatalogMatchingEnabled;
+@property (class, nonatomic) BOOL isAdvertiserRuleMatchInServerEnabled;
 @property (class, nonatomic) NSMutableDictionary<NSString *, NSMutableArray<FBAEMConfiguration *> *> *configurations;
 @property (class, nonatomic) NSMutableArray<FBAEMInvocation *> *invocations;
 @property (class, nonatomic) NSMutableArray<FBAEMReporterBlock> *completionBlocks;
@@ -50,6 +51,12 @@ typedef void (^FBAEMReporterBlock)(NSError *_Nullable);
                                      contentID:(nullable NSString *)contentID
                                          block:(dispatch_block_t)block;
 
++ (void)_loadRuleMatch:(NSArray<NSString *> *)businessIDs
+                 event:(NSString *)event
+              currency:(nullable NSString *)currency
+                 value:(nullable NSNumber *)value
+            parameters:(nullable NSDictionary<NSString *, id> *)parameters;
+
 + (BOOL)_isContentOptimized:(id _Nullable)result;
 
 + (BOOL)_shouldReportConversionInCatalogLevel:(FBAEMInvocation *)invocation
@@ -59,7 +66,7 @@ typedef void (^FBAEMReporterBlock)(NSError *_Nullable);
                                                   contentID:(nullable NSString *)contentID;
 
 + (nullable FBAEMInvocation *)_attributedInvocation:(NSArray<FBAEMInvocation *> *)invocations
-                                              Event:(NSString *)event
+                                              event:(NSString *)event
                                            currency:(nullable NSString *)currency
                                               value:(nullable NSNumber *)value
                                          parameters:(nullable NSDictionary<NSString *, id> *)parameters
@@ -71,6 +78,9 @@ typedef void (^FBAEMReporterBlock)(NSError *_Nullable);
 + (void)_sendDebuggingRequest:(FBAEMInvocation *)invocation;
 
 + (NSDictionary<NSString *, id> *)_debuggingRequestParameters:(FBAEMInvocation *)invocation;
+
++ (NSDictionary<NSString *, id> *)_ruleMatchRequestParameters:(NSArray<NSString *> *)businessIDs
+                                                      content:(nullable NSString *)content;
 
 + (void)_sendAggregationRequest;
 

@@ -15,6 +15,7 @@
 #import <objc/runtime.h>
 
 #import <FBSDKCoreKit/FBSDKCoreKit-Swift.h>
+#import <FBSDKCoreKit/FBSDKAppEventsFlushReason.h>
 
 #import "FBSDKATEPublisherCreating.h"
 #import "FBSDKATEPublishing.h"
@@ -524,7 +525,7 @@ static BOOL g_explicitEventsLoggedYet = NO;
 {
   [self validateConfiguration];
   _userID = [userID copy];
-  [self.primaryDataStore setObject:userID forKey:USER_ID_USER_DEFAULTS_KEY];
+  [self.primaryDataStore fb_setObject:userID forKey:USER_ID_USER_DEFAULTS_KEY];
 }
 
 - (void)setUserEmail:(nullable NSString *)email
@@ -689,7 +690,7 @@ static BOOL g_explicitEventsLoggedYet = NO;
 
   self.isConfigured = YES;
 
-  self.userID = [primaryDataStore stringForKey:USER_ID_USER_DEFAULTS_KEY];
+  self.userID = [primaryDataStore fb_stringForKey:USER_ID_USER_DEFAULTS_KEY];
 }
 
 #if !TARGET_OS_TV
@@ -856,7 +857,7 @@ static BOOL g_explicitEventsLoggedYet = NO;
     return;
   }
   NSString *lastAttributionPingString = [NSString stringWithFormat:@"com.facebook.sdk:lastAttributionPing%@", appID];
-  if ([self.primaryDataStore objectForKey:lastAttributionPingString]) {
+  if ([self.primaryDataStore fb_objectForKey:lastAttributionPingString]) {
     return;
   }
   [self fetchServerConfiguration:^{
@@ -878,9 +879,9 @@ static BOOL g_explicitEventsLoggedYet = NO;
     __block id<FBSDKDataPersisting> weakStore = self.primaryDataStore;
     [request startWithCompletion:^(id<FBSDKGraphRequestConnecting> connection, id result, NSError *error) {
       if (!error) {
-        [weakStore setObject:[NSDate date] forKey:lastAttributionPingString];
+        [weakStore fb_setObject:[NSDate date] forKey:lastAttributionPingString];
         NSString *lastInstallResponseKey = [NSString stringWithFormat:@"com.facebook.sdk:lastInstallResponse%@", appID];
-        [weakStore setObject:result forKey:lastInstallResponseKey];
+        [weakStore fb_setObject:result forKey:lastInstallResponseKey];
       }
     }];
   }];
@@ -1015,6 +1016,7 @@ static BOOL g_explicitEventsLoggedYet = NO;
             [self.aemReporter enable];
             [self.aemReporter setCatalogMatchingEnabled:[self.featureChecker isEnabled:FBSDKFeatureAEMCatalogMatching]];
             [self.aemReporter setConversionFilteringEnabled:[self.featureChecker isEnabled:FBSDKFeatureAEMConversionFiltering]];
+            [self.aemReporter setAdvertiserRuleMatchInServerEnabled:[self.featureChecker isEnabled:FBSDKFeatureAEMAdvertiserRuleMatchInServer]];
           }
         }];
       }

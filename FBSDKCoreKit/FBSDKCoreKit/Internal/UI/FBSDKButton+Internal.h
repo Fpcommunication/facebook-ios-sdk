@@ -12,8 +12,8 @@
 #import <FBSDKCoreKit/FBSDKButton.h>
 #import <FBSDKCoreKit/FBSDKButtonImpressionLogging.h>
 
-#import "FBSDKEventLogging.h"
-#import "FBSDKIcon+Internal.h"
+#import <FBSDKCoreKit/FBSDKEventLogging.h>
+#import <FBSDKCoreKit/FBSDKCoreKit-Swift.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

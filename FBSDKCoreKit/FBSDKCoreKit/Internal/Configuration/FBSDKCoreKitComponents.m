@@ -9,10 +9,10 @@
 #import "FBSDKCoreKitComponents.h"
 
 #import <FBSDKCoreKit/FBSDKCoreKit-Swift.h>
+#import <FBSDKCoreKit_Basics/FBSDKCoreKit_Basics.h>
 
 #import "FBSDKAEMNetworker.h"
 #import "FBSDKATEPublisherFactory.h"
-#import "FBSDKAccessTokenExpirer.h"
 #import "FBSDKAppEvents+Internal.h"
 #import "FBSDKAppEventsConfigurationManager.h"
 #import "FBSDKAppEventsDeviceInfo.h"
@@ -31,7 +31,6 @@
 #import "FBSDKErrorReporter.h"
 #import "FBSDKEventDeactivationManager.h"
 #import "FBSDKFeatureExtractor.h"
-#import "FBSDKFeatureManager.h"
 #import "FBSDKGateKeeperManager.h"
 #import "FBSDKGraphRequestPiggybackManager.h"
 #import "FBSDKImpressionLoggerFactory.h"
@@ -51,17 +50,16 @@
 #import "FBSDKTokenCache.h"
 #import "FBSDKURLSessionProxyFactory.h"
 #import "FBSDKUserDataStore.h"
-#import "FBSDKWebViewFactory.h"
-#import "NSNotificationCenter+Extensions.h"
-#import "NSProcessInfo+Protocols.h"
-#import "NSURLSession+Protocols.h"
+#import "NSNotificationCenter+NotificationPosting.h"
+#import "NSProcessInfo+MacCatalystDetermining.h"
+#import "NSProcessInfo+OperatingSystemVersionComparing.h"
 #import "UIApplication+URLOpener.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation FBSDKCoreKitComponents
 
-- (instancetype)initWithAccessTokenExpirer:(id<FBSDKAccessTokenExpiring>)accessTokenExpirer
+- (instancetype)initWithAccessTokenExpirer:(id<_FBSDKAccessTokenExpiring>)accessTokenExpirer
                          accessTokenWallet:(Class<FBSDKAccessTokenProviding, FBSDKTokenStringProviding>)accessTokenWallet
                       advertiserIDProvider:(id<FBSDKAdvertiserIDProviding>)advertiserIDProvider
                                  appEvents:(id<FBSDKSourceApplicationTracking, FBSDKAppEventsConfiguring, FBSDKApplicationLifecycleObserving, FBSDKApplicationActivating, FBSDKApplicationStateSetting, FBSDKEventLogging>)appEvents
@@ -92,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
                                     logger:(Class<FBSDKLogging>)logger
                              loggerFactory:(id<__FBSDKLoggerCreating>)loggerFactory
                    macCatalystDeterminator:(id<FBSDKMacCatalystDetermining>)macCatalystDeterminator
-                        notificationCenter:(id<FBSDKNotificationPosting, FBSDKNotificationObserving>)notificationCenter
+                        notificationCenter:(id<_FBSDKNotificationPosting, FBSDKNotificationDelivering>)notificationCenter
             operatingSystemVersionComparer:(id<FBSDKOperatingSystemVersionComparing>)operatingSystemVersionComparer
                            paymentObserver:(id<FBSDKPaymentObserving>)paymentObserver
                           piggybackManager:(id<FBSDKGraphRequestPiggybackManaging>)piggybackManager
@@ -125,7 +123,7 @@ NS_ASSUME_NONNULL_BEGIN
                              modelManager:(id<FBSDKEventProcessing, FBSDKIntegrityParametersProcessorProvider>)modelManager
                             profileSetter:(Class<FBSDKProfileProviding>)profileSetter
                      rulesFromKeyProvider:(id<FBSDKRulesFromKeyProvider>)rulesFromKeyProvider
-                  sessionDataTaskProvider:(id<FBSDKSessionProviding>)sessionDataTaskProvider
+                  sessionDataTaskProvider:(id<FBSDKURLSessionProviding>)sessionDataTaskProvider
                       skAdNetworkReporter:(nullable id<FBSDKAppEventsReporter, FBSKAdNetworkReporting>)skAdNetworkReporter
                    suggestedEventsIndexer:(id<FBSDKSuggestedEventsIndexer>)suggestedEventsIndexer
                                  swizzler:(Class<FBSDKSwizzling>)swizzler
@@ -285,7 +283,7 @@ static FBSDKCoreKitComponents *_default;
     #endif
 
       _default = [FBSDKCoreKitComponents alloc];
-      _default = [_default initWithAccessTokenExpirer:[[FBSDKAccessTokenExpirer alloc] initWithNotificationCenter:NSNotificationCenter.defaultCenter]
+      _default = [_default initWithAccessTokenExpirer:[[_FBSDKAccessTokenExpirer alloc] initWithNotificationCenter:NSNotificationCenter.defaultCenter]
                                     accessTokenWallet:FBSDKAccessToken.class
                                  advertiserIDProvider:FBSDKAppEventsUtility.shared
                                             appEvents:FBSDKAppEvents.shared

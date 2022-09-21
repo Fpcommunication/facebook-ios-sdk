@@ -80,6 +80,10 @@ final class TestInternalUtility: InternalUtilityProtocol {
   }
 
   var bundleForStrings: Bundle { .main }
+
+  var stubbedTopMostViewController: UIViewController?
+
+  func topMostViewController() -> UIViewController? { stubbedTopMostViewController }
 }
 
 enum URLConstants {

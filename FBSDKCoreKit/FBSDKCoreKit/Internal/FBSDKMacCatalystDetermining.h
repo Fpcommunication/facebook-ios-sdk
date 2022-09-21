@@ -10,12 +10,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-// Describes any type that can determine if the current app is mac catalyst
+// An interface for indicating whether a process originated as an iOS app and runs on macOS.
 NS_SWIFT_NAME(MacCatalystDetermining)
+@protocol FBSDKMacCatalystDetermining
 
-@protocol FBSDKMacCatalystDetermining <NSObject>
-
-@property (readonly, getter = isMacCatalystApp) BOOL macCatalystApp;
+@property (readonly) BOOL fb_isMacCatalystApp;
 
 @end
 

@@ -14,12 +14,12 @@ import XCTest
 final class LoginCompleterFactoryTests: XCTestCase {
 
   func testCreatingCompleterWithDependencies() {
-    let completer = _LoginCompleterFactory().createLoginCompleter(
+    let completer = LoginCompleterFactory().createLoginCompleter(
       urlParameters: [:],
       appID: name
     )
     XCTAssertTrue(
-      completer is _LoginURLCompleter,
+      completer is LoginURLCompleter,
       "Should create the expected concrete type of login completer"
     )
   }

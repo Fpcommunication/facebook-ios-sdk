@@ -10,13 +10,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-// Describes any type that can compare the current operating system version to a given version
+// An interface for indicating whether the version of the operating system on which the process is executing
+// is the same or later than a given version.
 NS_SWIFT_NAME(OperatingSystemVersionComparing)
 @protocol FBSDKOperatingSystemVersionComparing
 
 // UNCRUSTIFY_FORMAT_OFF
-- (BOOL)isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion)version
-NS_SWIFT_NAME(isOperatingSystemAtLeast(_:));
+- (BOOL)fb_isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion)version
+NS_SWIFT_NAME(fb_isOperatingSystemAtLeast(_:));
 // UNCRUSTIFY_FORMAT_ON
 
 @end

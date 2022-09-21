@@ -170,18 +170,18 @@ static UIApplicationState _applicationState;
 
 - (void)addObservers
 {
-  [self.components.notificationCenter addObserver:self
-                                         selector:@selector(applicationDidEnterBackground:)
-                                             name:UIApplicationDidEnterBackgroundNotification
-                                           object:nil];
-  [self.components.notificationCenter addObserver:self
-                                         selector:@selector(applicationDidBecomeActive:)
-                                             name:UIApplicationDidBecomeActiveNotification
-                                           object:nil];
-  [self.components.notificationCenter addObserver:self
-                                         selector:@selector(applicationWillResignActive:)
-                                             name:UIApplicationWillResignActiveNotification
-                                           object:nil];
+  [self.components.notificationCenter fb_addObserver:self
+                                            selector:@selector(applicationDidEnterBackground:)
+                                                name:UIApplicationDidEnterBackgroundNotification
+                                              object:nil];
+  [self.components.notificationCenter fb_addObserver:self
+                                            selector:@selector(applicationDidBecomeActive:)
+                                                name:UIApplicationDidBecomeActiveNotification
+                                              object:nil];
+  [self.components.notificationCenter fb_addObserver:self
+                                            selector:@selector(applicationWillResignActive:)
+                                                name:UIApplicationWillResignActiveNotification
+                                              object:nil];
 #if !TARGET_OS_TV
   [self addObserver:FBSDKBridgeAPI.sharedInstance];
 #endif
@@ -226,6 +226,7 @@ static UIApplicationState _applicationState;
     if (enabled) {
       [FBAEMReporter setCatalogMatchingEnabled:[self.components.featureChecker isEnabled:FBSDKFeatureAEMCatalogMatching]];
       [FBAEMReporter setConversionFilteringEnabled:[self.components.featureChecker isEnabled:FBSDKFeatureAEMConversionFiltering]];
+      [FBAEMReporter setAdvertiserRuleMatchInServerEnabled:[self.components.featureChecker isEnabled:FBSDKFeatureAEMAdvertiserRuleMatchInServer]];
       [FBAEMReporter enable];
       [FBAEMReporter handleURL:url];
     }
@@ -461,9 +462,9 @@ static UIApplicationState _applicationState;
     bit++;
   }
 
-  NSInteger existingBitmask = [self.components.defaultDataStore integerForKey:FBSDKKitsBitmaskKey];
+  NSInteger existingBitmask = [self.components.defaultDataStore fb_integerForKey:FBSDKKitsBitmaskKey];
   if (existingBitmask != bitmask) {
-    [self.components.defaultDataStore setInteger:bitmask forKey:FBSDKKitsBitmaskKey];
+    [self.components.defaultDataStore fb_setInteger:bitmask forKey:FBSDKKitsBitmaskKey];
     [self.components.appEvents logInternalEvent:@"fb_sdk_initialize"
                                      parameters:params
                              isImplicitlyLogged:NO];

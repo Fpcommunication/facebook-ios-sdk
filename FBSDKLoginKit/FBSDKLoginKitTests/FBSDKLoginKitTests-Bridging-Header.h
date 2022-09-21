@@ -9,16 +9,10 @@
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 
 #import "FBSDKAuthenticationTokenClaims+Testing.h"
-#import "FBSDKAuthenticationTokenCreating.h"
-#import "FBSDKCodeVerifier.h"
-#import "FBSDKDevicePolling.h"
-#import "FBSDKLoginProviding.h"
 
 // +Testing.h files
 #import "FBSDKAccessToken+Testing.h"
-#import "FBSDKDeviceLoginManager+Testing.h"
 #import "FBSDKDeviceLoginManagerResult+Testing.h"
 #import "FBSDKInternalUtility+Testing.h"
-#import "FBSDKLoginManager+Testing.h"
 #import "FBSDKProfile+Testing.h"
 #import "FBSDKSettings+Testing.h"

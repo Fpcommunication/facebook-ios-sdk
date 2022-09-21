@@ -12,7 +12,7 @@
 enum TestCoreKitComponents {
 
   static func makeComponents(
-    accessTokenExpirer: AccessTokenExpiring = TestAccessTokenExpirer(),
+    accessTokenExpirer: _AccessTokenExpiring = TestAccessTokenExpirer(),
     accessTokenWallet: (AccessTokenProviding & TokenStringProviding).Type = TestAccessTokenWallet.self,
     advertiserIDProvider: AdvertiserIDProviding = TestAdvertiserIDProvider(),
     appEvents: AppEventsConfiguring & ApplicationActivating & ApplicationLifecycleObserving & ApplicationStateSetting & EventLogging & SourceApplicationTracking = TestAppEvents(),
@@ -32,8 +32,8 @@ enum TestCoreKitComponents {
     errorReporter: ErrorReporting = TestErrorReporter(),
     eventDeactivationManager: AppEventsParameterProcessing & EventsProcessing = TestAppEventsParameterProcessor(),
     eventLogger: EventLogging = TestEventLogger(),
-    featureChecker: FeatureChecking & FeatureDisabling = TestFeatureManager(),
-    gateKeeperManager: GateKeeperManaging.Type = TestGateKeeperManager.self,
+    featureChecker: FeatureChecking & _FeatureDisabling = TestFeatureManager(),
+    gateKeeperManager: _GateKeeperManaging.Type = TestGateKeeperManager.self,
     getApplicationActivationNotifier: @escaping () -> Any = { UninhabitedObject.shared },
     graphRequestConnectionFactory: GraphRequestConnectionFactoryProtocol = TestGraphRequestConnectionFactory(),
     graphRequestFactory: GraphRequestFactoryProtocol = TestGraphRequestFactory(),
@@ -43,7 +43,7 @@ enum TestCoreKitComponents {
     logger: Logging.Type = TestLogger.self,
     loggerFactory: LoggerCreating = TestLoggerFactory(),
     macCatalystDeterminator: MacCatalystDetermining = TestMacCatalystDeterminator(),
-    notificationCenter: NotificationObserving & NotificationPosting = TestNotificationCenter(),
+    notificationCenter: NotificationDelivering & _NotificationPosting = TestNotificationCenter(),
     operatingSystemVersionComparer: OperatingSystemVersionComparing = TestProcessInfo(),
     paymentObserver: PaymentObserving = TestPaymentObserver(),
     piggybackManager: GraphRequestPiggybackManaging = TestGraphRequestPiggybackManager(),
@@ -76,7 +76,7 @@ enum TestCoreKitComponents {
     modelManager: EventProcessing & IntegrityParametersProcessorProvider = TestOnDeviceMLModelManager(),
     profileSetter: ProfileProviding.Type = TestProfileProvider.self,
     rulesFromKeyProvider: RulesFromKeyProvider = TestOnDeviceMLModelManager(),
-    sessionDataTaskProvider: SessionProviding = TestSessionProvider(),
+    sessionDataTaskProvider: URLSessionProviding = TestSessionProvider(),
     skAdNetworkReporter: (SKAdNetworkReporting & AppEventsReporter)? = TestSKAdNetworkReporter(),
     suggestedEventsIndexer: SuggestedEventsIndexerProtocol = TestSuggestedEventsIndexer(),
     swizzler: Swizzling.Type = TestSwizzler.self,

@@ -18,7 +18,6 @@
 #import <FBSDKCoreKit_Basics/FBSDKCoreKit_Basics.h>
 
 #import "FBSDKATEPublisherCreating.h"
-#import "FBSDKAccessTokenExpiring.h"
 #import "FBSDKAdvertiserIDProviding.h"
 #import "FBSDKAppEventDropDetermining.h"
 #import "FBSDKAppEventParametersExtracting.h"
@@ -53,7 +52,6 @@
 #import "FBSDKInternalURLOpener.h"
 #import "FBSDKMacCatalystDetermining.h"
 #import "FBSDKMetadataIndexing.h"
-#import "FBSDKNotificationProtocols.h"
 #import "FBSDKOperatingSystemVersionComparing.h"
 #import "FBSDKPaymentObserving.h"
 #import "FBSDKRulesFromKeyProvider.h"
@@ -69,6 +67,7 @@
 #import "__FBSDKLoggerCreating.h"
 
 @protocol FBSDKCAPIReporter;
+@protocol _FBSDKAccessTokenExpiring;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -78,7 +77,7 @@ NS_SWIFT_NAME(CoreKitComponents)
 @property (class, nonatomic, readonly) FBSDKCoreKitComponents *defaultComponents
 NS_SWIFT_NAME(default);
 
-@property (nonatomic, readonly) id<FBSDKAccessTokenExpiring> accessTokenExpirer;
+@property (nonatomic, readonly) id<_FBSDKAccessTokenExpiring> accessTokenExpirer;
 @property (nonatomic, readonly) Class<FBSDKAccessTokenProviding, FBSDKTokenStringProviding> accessTokenWallet;
 @property (nonatomic, readonly) id<FBSDKAdvertiserIDProviding> advertiserIDProvider;
 @property (nonatomic, readonly) id<FBSDKSourceApplicationTracking, FBSDKAppEventsConfiguring, FBSDKApplicationLifecycleObserving, FBSDKApplicationActivating, FBSDKApplicationStateSetting, FBSDKEventLogging> appEvents;
@@ -109,7 +108,7 @@ NS_SWIFT_NAME(default);
 @property (nonatomic, readonly) Class<FBSDKLogging> logger;
 @property (nonatomic, readonly) id<__FBSDKLoggerCreating> loggerFactory;
 @property (nonatomic, readonly) id<FBSDKMacCatalystDetermining> macCatalystDeterminator;
-@property (nonatomic, readonly) id<FBSDKNotificationPosting, FBSDKNotificationObserving> notificationCenter;
+@property (nonatomic, readonly) id<_FBSDKNotificationPosting, FBSDKNotificationDelivering> notificationCenter;
 @property (nonatomic, readonly) id<FBSDKOperatingSystemVersionComparing> operatingSystemVersionComparer;
 @property (nonatomic, readonly) id<FBSDKPaymentObserving> paymentObserver;
 @property (nonatomic, readonly) id<FBSDKGraphRequestPiggybackManaging> piggybackManager;
@@ -143,7 +142,7 @@ NS_SWIFT_NAME(default);
 @property (nonatomic, readonly) id<FBSDKEventProcessing, FBSDKIntegrityParametersProcessorProvider> modelManager;
 @property (nonatomic, readonly) Class<FBSDKProfileProviding> profileSetter;
 @property (nonatomic, readonly) id<FBSDKRulesFromKeyProvider> rulesFromKeyProvider;
-@property (nonatomic, readonly) id<FBSDKSessionProviding> sessionDataTaskProvider;
+@property (nonatomic, readonly) id<FBSDKURLSessionProviding> sessionDataTaskProvider;
 @property (nullable, nonatomic, readonly) id<FBSDKAppEventsReporter, FBSKAdNetworkReporting> skAdNetworkReporter;
 @property (nonatomic, readonly) id<FBSDKSuggestedEventsIndexer> suggestedEventsIndexer;
 @property (nonatomic, readonly) Class<FBSDKSwizzling> swizzler;
@@ -156,7 +155,7 @@ NS_SWIFT_NAME(default);
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 
-- (instancetype)initWithAccessTokenExpirer:(id<FBSDKAccessTokenExpiring>)accessTokenExpirer
+- (instancetype)initWithAccessTokenExpirer:(id<_FBSDKAccessTokenExpiring>)accessTokenExpirer
                          accessTokenWallet:(Class<FBSDKAccessTokenProviding, FBSDKTokenStringProviding>)accessTokenWallet
                       advertiserIDProvider:(id<FBSDKAdvertiserIDProviding>)advertiserIDProvider
                                  appEvents:(id<FBSDKSourceApplicationTracking, FBSDKAppEventsConfiguring, FBSDKApplicationLifecycleObserving, FBSDKApplicationActivating, FBSDKApplicationStateSetting, FBSDKEventLogging>)appEvents
@@ -187,7 +186,7 @@ NS_SWIFT_NAME(default);
                                     logger:(Class<FBSDKLogging>)logger
                              loggerFactory:(id<__FBSDKLoggerCreating>)loggerFactory
                    macCatalystDeterminator:(id<FBSDKMacCatalystDetermining>)macCatalystDeterminator
-                        notificationCenter:(id<FBSDKNotificationPosting, FBSDKNotificationObserving>)notificationCenter
+                        notificationCenter:(id<_FBSDKNotificationPosting, FBSDKNotificationDelivering>)notificationCenter
             operatingSystemVersionComparer:(id<FBSDKOperatingSystemVersionComparing>)operatingSystemVersionComparer
                            paymentObserver:(id<FBSDKPaymentObserving>)paymentObserver
                           piggybackManager:(id<FBSDKGraphRequestPiggybackManaging>)piggybackManager
@@ -220,7 +219,7 @@ NS_SWIFT_NAME(default);
                              modelManager:(id<FBSDKEventProcessing, FBSDKIntegrityParametersProcessorProvider>)modelManager
                             profileSetter:(Class<FBSDKProfileProviding>)profileSetter
                      rulesFromKeyProvider:(id<FBSDKRulesFromKeyProvider>)rulesFromKeyProvider
-                  sessionDataTaskProvider:(id<FBSDKSessionProviding>)sessionDataTaskProvider
+                  sessionDataTaskProvider:(id<FBSDKURLSessionProviding>)sessionDataTaskProvider
                       skAdNetworkReporter:(nullable id<FBSDKAppEventsReporter, FBSKAdNetworkReporting>)skAdNetworkReporter
                    suggestedEventsIndexer:(id<FBSDKSuggestedEventsIndexer>)suggestedEventsIndexer
                                  swizzler:(Class<FBSDKSwizzling>)swizzler

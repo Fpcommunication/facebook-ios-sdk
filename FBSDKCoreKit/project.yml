@@ -185,17 +185,22 @@ targets:
         excludes:
           - FBSDKAppLink*
           - FBSDKBridgeAPI*
+          - FBSDKButton.*
           - FBSDKGraphErrorRecoveryProcessor*
           - FBSDKBridgeAPI*
           - FBSDKMeasurementEvent*
           - FBSDKMutableCopying*
           - FBSDKProfile*
+          - FBSDKImpressionLoggingButton*
           - FBSDKShareDialogConfiguration*
           - FBSDKURL.*
           - FBSDKURLHosting*
           - FBSDKURLOpen*
           - FBSDKWebDialog*
+          - FBSDKWebView.*
           - FBSDKWebViewAppLinkResolver*
+          - FBSDKWebViewProviding.*
+          - WKWebView+WebViewProtocol.*
           - FBSDKWindowFinding*
           - FBSDKInternalUtility+URLHosting*
       - path: FBSDKCoreKit/Info.plist
@@ -290,17 +295,22 @@ targets:
         excludes:
           - FBSDKAppLink*
           - FBSDKBridgeAPI*
+          - FBSDKButton.*
           - FBSDKGraphErrorRecoveryProcessor*
           - FBSDKBridgeAPI*
           - FBSDKMeasurementEvent*
           - FBSDKMutableCopying*
           - FBSDKProfile*
+          - FBSDKImpressionLoggingButton*
           - FBSDKShareDialogConfiguration*
           - FBSDKURL.*
           - FBSDKURLHosting*
           - FBSDKURLOpen*
           - FBSDKWebDialog*
+          - FBSDKWebView.*
           - FBSDKWebViewAppLinkResolver*
+          - FBSDKWebViewProviding.*
+          - WKWebView+WebViewProtocol.*
           - FBSDKWindowFinding*
           - Info.plist
           - FBSDKInternalUtility+URLHosting*
